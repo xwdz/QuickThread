@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 执行任务接口
+ * @author huangxingwei(xwdz989@gmail.com)
+ * @since 1.0.0
  */
 public interface QuickExecutor {
 

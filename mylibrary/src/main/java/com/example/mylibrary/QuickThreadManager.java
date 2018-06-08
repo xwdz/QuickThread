@@ -1,5 +1,9 @@
 package com.example.mylibrary;
 
+/**
+ * @author huangxingwei(xwdz9989@gmail.com)
+ * @since 1.0.1
+ */
 public class QuickThreadManager {
 
     private static QuickPool sNetwork;
@@ -8,11 +12,11 @@ public class QuickThreadManager {
 
     static {
         sNetwork = new QuickPool.Builder()
-                .createFixedThreadPool(5)
+                .createFixed(5)
                 .build();
 
         sTest = new QuickPool.Builder()
-                .createScheduledThreadPool(5)
+                .createScheduled(5)
                 .build();
     }
 

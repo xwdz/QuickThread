@@ -28,4 +28,6 @@ dependencies {
     compile 'com.github.yjfnypeu:EasyThread:0.6.0'
     implementation files('libs/koala_ad_v6.8.jar')
     implementation project(':mylibrary')
+    implementation 'io.reactivex:rxjava:1.0.14'
+    implementation 'io.reactivex:rxandroid:1.0.1'
 }

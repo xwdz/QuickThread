@@ -5,11 +5,20 @@ import android.os.Bundle;
 import android.util.Log;
 
 
+import com.example.mylibrary.QuickPool;
+import com.example.mylibrary.QuickThread;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.functions.Func1;
+import rx.functions.Func2;
+
+import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 //        scheduledExecutorService.schedule(new Runnable() {
 //            @Override
 //            public void run() {
@@ -46,12 +54,57 @@ public class MainActivity extends AppCompatActivity {
 //        }, 10, 2, TimeUnit.SECONDS);
 
 
-        scheduledExecutorService.scheduleWithFixedDelay(new Runnable() {
+//        QuickPool quickPool = new QuickPool.Builder().createFixed(3).build();
+//        quickPool.delay(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//            }
+//        }, 3, TimeUnit.SECONDS);
+//
+//
+//        quickPool.execute(new QuickThread("name") {
+//            @Override
+//            public void running() {
+//
+//            }
+//        });
+
+
+        Observable.just("Marry me !!")
+                .retryWhen(new Func1<Observable<? extends Throwable>, Observable<Long>>() {
             @Override
-            public void run() {
-                Log.e("TAG", "start????");
+            public Observable<Long> call(Observable<? extends Throwable> throwableObservable) {
+                return throwableObservable.zipWith(Observable.range(1, Integer.MAX_VALUE),
+                        new Func2<Throwable, Integer, Integer>() {
+                            @Override
+                            public Integer call(Throwable throwable, Integer i) {
+                                return i;
+                            }
+                        }).concatMap(new Func1<Integer, Observable<? extends Long>>() {
+                    @Override
+                    public Observable<? extends Long> call(Integer retryCount) {
+                        return Observable.timer((long) Math.pow(2, retryCount), TimeUnit.SECONDS);
+                    }
+                });
             }
-        },3,2,TimeUnit.SECONDS);
+        }).subscribe(new Subscriber<String>() {
+            @Override
+            public void onCompleted() {
+                /*Never completed*/
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                /*No failure*/
+            }
+
+            @Override
+            public void onNext(String s) {
+                /*Endless  love*/
+            }
+        });
+
 
     }
 
@@ -69,9 +122,10 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void run() {
+            Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
             Log.e("打印信息：", "等待中...执行第" + threadNum + "号线程");
             try {
-                Thread.currentThread().sleep(4000);
+                sleep(4000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

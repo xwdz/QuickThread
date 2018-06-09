@@ -9,6 +9,7 @@ import com.example.mylibrary.QuickManager;
 import com.example.mylibrary.listener.Response;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -52,7 +53,25 @@ public class MainActivity extends AppCompatActivity {
 
         Log.e("TAG", "---feature init ");
 
+        //同步执行一个call
+        Future future = QuickManager.getCache().submit(new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                Thread.sleep(10000);
+                return "this is test";
+            }
+        });
 
+        try {
+            Log.e("TAG","future = " + future.get());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+
+        //异步执行一个call
         QuickManager.getCache().async(new Callable<String>() {
             @Override
             public String call() throws Exception {
@@ -117,38 +136,5 @@ public class MainActivity extends AppCompatActivity {
             }
             Log.e("打印信息：", "完成第" + threadNum + "号线程");
         }
-    }
-
-    public String chineseToUnicode(String str) {
-        String result = "";
-        for (int i = 0; i < str.length(); i++) {
-            int chr1 = (char) str.charAt(i);
-            if (chr1 >= 19968 && chr1 <= 171941) {//汉字范围 \u4e00-\u9fa5 (中文)
-                result += "\\u" + Integer.toHexString(chr1);
-            } else {
-                result += str.charAt(i);
-            }
-        }
-        return result;
-    }
-
-    /**
-     * 判断是否为中文字符
-     *
-     * @param c
-     * @return
-     */
-    public boolean isChinese(char c) {
-        Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
-        if (ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
-
-                || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS
-                || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
-                || ub == Character.UnicodeBlock.GENERAL_PUNCTUATION
-                || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
-                || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {
-            return true;
-        }
-        return false;
     }
 }

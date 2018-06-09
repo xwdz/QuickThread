@@ -10,24 +10,11 @@ import com.example.mylibrary.listener.Response;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity {
-
-    private String[] search = {
-            "input keyevent 3",// 返回到主界面，数值与按键的对应关系可查阅KeyEvent
-            "sleep 1",// 等待1秒
-            "am start -n com.tencent.mm/com.tencent.mm.ui.LauncherUI",// 打开微信的启动界面，am命令的用法可自行百度、Google
-            "sleep 3",// 等待3秒
-            "am start -n com.tencent.mm/com.tencent.mm.plugin.search.ui.SearchUI",// 打开微信的搜索
-            "input text 123"};// 像搜索框中输入123，但是input不支持中文，蛋疼，而且这边没做输入法处理，默认会自动弹出输入法
-
-
-    private ExecutorService mExecutorService = Executors.newFixedThreadPool(3);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
                 return "this is test";
             }
         });
+
+        future.cancel(true);
 
         try {
             Log.e("TAG","future = " + future.get());

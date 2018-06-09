@@ -2,9 +2,13 @@ package com.example.mylibrary;
 
 import android.support.annotation.NonNull;
 
+import com.example.mylibrary.listener.Response;
+
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
@@ -16,11 +20,11 @@ import java.util.concurrent.TimeUnit;
 public final class QuickPool implements QuickExecutor {
 
     private ExecutorService mThreadPool;
-    private DelayedTask mDelayedTask;
+    private TaskUtils mTaskUtils;
 
     private QuickPool(Builder builder) {
         mThreadPool = builder.mThreadPool;
-        mDelayedTask = DelayedTask.get();
+        mTaskUtils = TaskUtils.get();
     }
 
     @Override
@@ -29,19 +33,58 @@ public final class QuickPool implements QuickExecutor {
     }
 
     @Override
-    public void delay(@NonNull Runnable command, long delay, TimeUnit unit) {
-        mDelayedTask.schedule(command, delay, unit);
+    public void delay(@NonNull Runnable command, long delay) {
+        mTaskUtils.schedule(command, delay);
     }
 
+    @Override
+    public void delay(@NonNull Runnable command, long delay, TimeUnit unit) {
+        mTaskUtils.schedule(command, delay, unit);
+    }
+
+    @Override
+    public void scheduled(@NonNull Runnable command, long initialDelay, long delay) {
+        mTaskUtils.scheduleWithFixedDelay(command, initialDelay, delay);
+    }
 
     @Override
     public void scheduled(@NonNull Runnable command, long initialDelay, long delay, TimeUnit unit) {
-        mDelayedTask.scheduleWithFixedDelay(command, initialDelay, delay, unit);
+        mTaskUtils.scheduleWithFixedDelay(command, initialDelay, delay, unit);
+    }
+
+    @Override
+    public void awaitTermination(long timeout, TimeUnit timeUnit) throws InterruptedException {
+        mTaskUtils.awaitTermination(timeout, timeUnit);
+    }
+
+    @Override
+    public <T> Future<T> async(Callable<T> task, Response<T> responseListener) {
+        return mTaskUtils.async(task, responseListener);
+    }
+
+    @Override
+    public void shutdown() {
+        mTaskUtils.shutdown();
+    }
+
+    @Override
+    public List<Runnable> shutdownNow() {
+        return mTaskUtils.shutdownNow();
+    }
+
+    @Override
+    public <T> Future<T> submit(Callable<T> task) {
+        return mThreadPool.submit(task);
+    }
+
+    @Override
+    public Future<?> submit(Runnable task) {
+        return mThreadPool.submit(task);
     }
 
     @Override
     public <V> ScheduledFuture<V> schedule(Callable<V> callable, long delay, TimeUnit unit) {
-        return mDelayedTask.schedule(callable,delay,unit);
+        return mTaskUtils.schedule(callable, delay, unit);
     }
 
 
@@ -67,7 +110,6 @@ public final class QuickPool implements QuickExecutor {
             return this;
         }
 
-
         public Builder createScheduled(int coreThreadSize) {
             mThreadPool = Executors.newScheduledThreadPool(coreThreadSize);
             return this;
@@ -77,7 +119,6 @@ public final class QuickPool implements QuickExecutor {
             mThreadPool = Executors.newScheduledThreadPool(coreThreadSize, factory);
             return this;
         }
-
 
         public Builder createSingle() {
             mThreadPool = Executors.newSingleThreadExecutor();

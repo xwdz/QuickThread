@@ -1,16 +1,17 @@
 package com.example.quinn.quickthreadtest;
 
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.example.mylibrary.QuickPool;
-import com.example.mylibrary.QuickThread;
+import com.example.mylibrary.QuickManager;
+import com.example.mylibrary.listener.Response;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 import static java.lang.Thread.sleep;
 
@@ -33,23 +34,62 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        QuickManager.getNetwork().execute(new Runnable() {
+            @Override
+            public void run() {
+                //do something
+            }
+        });
 
-        QuickPool quickPool = new QuickPool.Builder().createFixed(3).build();
-        quickPool.delay(new Runnable() {
+
+        QuickManager.getIO().delay(new Runnable() {
             @Override
             public void run() {
 
             }
-        }, 3, TimeUnit.SECONDS);
+        }, 1000);
 
 
-        quickPool.execute(new QuickThread("name") {
+        Log.e("TAG", "---feature init ");
+
+
+        QuickManager.getCache().async(new Callable<String>() {
             @Override
-            public void running() {
+            public String call() throws Exception {
+                if (Looper.getMainLooper() == Looper.myLooper()) {
+                    Log.e("TAG", "main Thread");
+                } else {
+                    Log.e("TAG", "child Thread");
+                }
+                Thread.sleep(10000);
+                return "123123";
+            }
+        }, new Response<String>() {
+            @Override
+            public void onSuccess(String s) {
+                Log.e("TAG", "s = " + s);
+            }
 
+            @Override
+            public void onError(Throwable e) {
             }
         });
 
+
+        Log.e("TAG", "---feature get ");
+
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Log.e("TAG", "name = " + submit.get());
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                } catch (ExecutionException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }).start();
 
 
     }

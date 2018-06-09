@@ -1,9 +1,8 @@
 package com.example.quinn.quickthreadtest;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-
 
 import com.example.mylibrary.QuickPool;
 import com.example.mylibrary.QuickThread;
@@ -12,11 +11,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-
-import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Func1;
-import rx.functions.Func2;
 
 import static java.lang.Thread.sleep;
 
@@ -39,71 +33,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-//        scheduledExecutorService.schedule(new Runnable() {
-//            @Override
-//            public void run() {
-//                Log.e("TAG", "start");
-//            }
-//        }, 10, TimeUnit.SECONDS);
 
-//        scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//            }
-//        }, 10, 2, TimeUnit.SECONDS);
-
-
-//        QuickPool quickPool = new QuickPool.Builder().createFixed(3).build();
-//        quickPool.delay(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//            }
-//        }, 3, TimeUnit.SECONDS);
-//
-//
-//        quickPool.execute(new QuickThread("name") {
-//            @Override
-//            public void running() {
-//
-//            }
-//        });
-
-
-        Observable.just("Marry me !!")
-                .retryWhen(new Func1<Observable<? extends Throwable>, Observable<Long>>() {
+        QuickPool quickPool = new QuickPool.Builder().createFixed(3).build();
+        quickPool.delay(new Runnable() {
             @Override
-            public Observable<Long> call(Observable<? extends Throwable> throwableObservable) {
-                return throwableObservable.zipWith(Observable.range(1, Integer.MAX_VALUE),
-                        new Func2<Throwable, Integer, Integer>() {
-                            @Override
-                            public Integer call(Throwable throwable, Integer i) {
-                                return i;
-                            }
-                        }).concatMap(new Func1<Integer, Observable<? extends Long>>() {
-                    @Override
-                    public Observable<? extends Long> call(Integer retryCount) {
-                        return Observable.timer((long) Math.pow(2, retryCount), TimeUnit.SECONDS);
-                    }
-                });
+            public void run() {
+
             }
-        }).subscribe(new Subscriber<String>() {
-            @Override
-            public void onCompleted() {
-                /*Never completed*/
-            }
+        }, 3, TimeUnit.SECONDS);
 
-            @Override
-            public void onError(Throwable e) {
-                /*No failure*/
-            }
 
+        quickPool.execute(new QuickThread("name") {
             @Override
-            public void onNext(String s) {
-                /*Endless  love*/
+            public void running() {
+
             }
         });
+
 
 
     }

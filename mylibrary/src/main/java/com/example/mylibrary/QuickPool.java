@@ -5,8 +5,8 @@ import android.support.annotation.NonNull;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -16,11 +16,11 @@ import java.util.concurrent.TimeUnit;
 public final class QuickPool implements QuickExecutor {
 
     private ExecutorService mThreadPool;
-    private ScheduledExecutorService mScheduledExecutorService;
+    private DelayedTask mDelayedTask;
 
     private QuickPool(Builder builder) {
-        mScheduledExecutorService = builder.mScheduledExecutorService;
         mThreadPool = builder.mThreadPool;
+        mDelayedTask = DelayedTask.get();
     }
 
     @Override
@@ -30,32 +30,24 @@ public final class QuickPool implements QuickExecutor {
 
     @Override
     public void delay(@NonNull Runnable command, long delay, TimeUnit unit) {
-        if (mScheduledExecutorService != null) {
-            mScheduledExecutorService.schedule(command, delay, unit);
-        }
+        mDelayedTask.schedule(command, delay, unit);
     }
 
 
     @Override
     public void scheduled(@NonNull Runnable command, long initialDelay, long delay, TimeUnit unit) {
-        if (mScheduledExecutorService != null) {
-            mScheduledExecutorService.scheduleWithFixedDelay(command, initialDelay, delay, unit);
-        }
+        mDelayedTask.scheduleWithFixedDelay(command, initialDelay, delay, unit);
     }
 
     @Override
     public <V> ScheduledFuture<V> schedule(Callable<V> callable, long delay, TimeUnit unit) {
-        if (mScheduledExecutorService != null) {
-            return mScheduledExecutorService.schedule(callable, delay, unit);
-        }
-        return null;
+        return mDelayedTask.schedule(callable,delay,unit);
     }
 
 
     public static class Builder {
 
         private ExecutorService mThreadPool;
-        private ScheduledExecutorService mScheduledExecutorService;
 
         public Builder() {
         }
@@ -70,18 +62,34 @@ public final class QuickPool implements QuickExecutor {
             return this;
         }
 
+        public Builder createFiexed(int sThread, ThreadFactory factory) {
+            mThreadPool = Executors.newFixedThreadPool(sThread, factory);
+            return this;
+        }
+
+
         public Builder createScheduled(int coreThreadSize) {
             mThreadPool = Executors.newScheduledThreadPool(coreThreadSize);
             return this;
         }
+
+        public Builder createScheduled(int coreThreadSize, ThreadFactory factory) {
+            mThreadPool = Executors.newScheduledThreadPool(coreThreadSize, factory);
+            return this;
+        }
+
 
         public Builder createSingle() {
             mThreadPool = Executors.newSingleThreadExecutor();
             return this;
         }
 
+        public Builder createSingle(ThreadFactory factory) {
+            mThreadPool = Executors.newSingleThreadExecutor(factory);
+            return this;
+        }
+
         public QuickPool build() {
-            mScheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
             return new QuickPool(this);
         }
 

@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onError(Throwable e) {
             }
-        });
+        }, true);
     }
 
     public <T> Future<T> test() {

@@ -9,10 +9,21 @@
 
 
 ### 依赖
-> compile 'com.xwdz:QuickThread:0.0.2'
+> compile 'com.xwdz:QuickThread:0.0.3'
 
+### 创建quickPool实例
+```
+QuickPool sCache = new QuickPool.Builder()
+                //createXXX
+                .createCached()
+                .build();
+```
 
-### 用法与原生线程池并无区别
+#### QuickThread默认提供了了一个统一的管理器维护所有的线程池[QuickManager](https://github.com/xwdz/QuickThread/blob/master/mylibrary/src/main/java/com/github/xwdz/quickthread/QuickManager.java)
+
+----
+
+### 使用QuickPool执行任务;
 
 ####  Runnable任务
 
@@ -72,6 +83,55 @@ QuickManager.getCache().async(new QuickCallable<String>("name") {
             public void onError(Throwable e) {
             }
         }, true);
+```
+
+#### 延时任务
+
+```
+//单位默认毫秒
+QuickManager.getIO().delay(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        }, 1000);
+
+//or
+
+QuickManager.getIO().delay(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        }, 1000,TimeUnit.SECONDS);
+
+```
+
+#### 周期性执行一个任务
+
+|参数|说明|
+|:--|:--|
+| Runnable | 任务 |
+| initialDelay | 几秒之后开始执行 |
+| delay | 周期性执行间隔时间 |
+
+```
+//单位默认毫秒
+QuickManager.getIO().scheduled(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        }, 1000, 3000);
+        
+// or
+
+QuickManager.getIO().scheduled(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        }, 1000, 3000,TimeUnit.SECONDS);
 ```
 
 

@@ -14,6 +14,7 @@ import com.lzh.easythread.EasyThread;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.Thread.sleep;
 
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        QuickPool quickPool  = QuickManager.getNetwork();
+        QuickPool quickPool = QuickManager.getNetwork();
         quickPool.execute(new Runnable() {
             @Override
             public void run() {
@@ -44,7 +45,17 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
 
             }
-        }, 1000);
+        }, 1000, TimeUnit.SECONDS);
+
+
+        QuickManager.getIO().scheduled(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        }, 1000, 3000,TimeUnit.SECONDS);
+
+
 
 
         EasyThread easyThread = EasyThread.Builder.createCacheable()

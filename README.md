@@ -9,10 +9,10 @@
 - 使用安全:当线程出现异常。能自动将catch异常信息传递给用户，避免出现crash;
 
 
-[![](https://jitpack.io/v/xwdz/QuickThread.svg)](https://jitpack.io/#xwdz/QuickThread)
+lastVersion = [![](https://jitpack.io/v/xwdz/QuickThread.svg)](https://jitpack.io/#xwdz/QuickThread)
 
 ### 依赖
-> compile 'com.xwdz:QuickThread:0.0.3'
+> compile 'com.xwdz:QuickThread:$lastVersion'
 
 ### 创建QuickPool实例
 ```

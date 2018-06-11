@@ -11,7 +11,7 @@
 ### 依赖
 > compile 'com.xwdz:QuickThread:0.0.3'
 
-### 创建quickPool实例
+### 创建QuickPool实例
 ```
 QuickPool sCache = new QuickPool.Builder()
                 //createXXX

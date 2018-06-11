@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
         QuickManager.getIO().delay(new Runnable() {
             @Override
             public void run() {
@@ -51,9 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             Log.e("TAG","future = " + future.get());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -80,24 +79,6 @@ public class MainActivity extends AppCompatActivity {
             public void onError(Throwable e) {
             }
         });
-
-
-        Log.e("TAG", "---feature get ");
-
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Log.e("TAG", "name = " + sync.get());
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                } catch (ExecutionException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).start();
-
-
     }
 
     public <T> Future<T> test() {

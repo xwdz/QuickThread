@@ -74,7 +74,6 @@ public class TaskUtils {
         return mScheduledExecutorService.schedule(command, delay, unit);
     }
 
-
     public void scheduleWithFixedDelay(Runnable command, long initialDelay, long delay) {
         mScheduledExecutorService.scheduleWithFixedDelay(command, initialDelay, delay, TimeUnit.MILLISECONDS);
     }

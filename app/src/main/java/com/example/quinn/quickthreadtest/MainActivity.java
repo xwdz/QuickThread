@@ -41,15 +41,13 @@ public class MainActivity extends AppCompatActivity {
         Log.e("TAG", "---feature init ");
 
         //同步执行一个call
-        Future future = QuickManager.getCache().submit(new Callable<String>() {
+        Future future = QuickManager.getCache().sync(new Callable<String>() {
             @Override
             public String call() throws Exception {
                 Thread.sleep(10000);
                 return "this is test";
             }
         });
-
-        future.cancel(true);
 
         try {
             Log.e("TAG","future = " + future.get());
@@ -90,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 //            @Override
 //            public void run() {
 //                try {
-//                    Log.e("TAG", "name = " + submit.get());
+//                    Log.e("TAG", "name = " + sync.get());
 //                } catch (InterruptedException e) {
 //                    e.printStackTrace();
 //                } catch (ExecutionException e) {

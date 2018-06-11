@@ -71,12 +71,12 @@ public final class QuickPool implements QuickExecutor {
     }
 
     @Override
-    public <T> Future<T> submit(Callable<T> task) {
+    public <T> Future<T> sync(Callable<T> task) {
         return mThreadPool.submit(task);
     }
 
     @Override
-    public Future<?> submit(Runnable task) {
+    public Future<?> sync(Runnable task) {
         return mThreadPool.submit(task);
     }
 

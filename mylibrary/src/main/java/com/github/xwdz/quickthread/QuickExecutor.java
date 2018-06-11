@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 执行任务接口
  *
- * @author huangxingwei(xwdz989@gmail.com)
+ * @author huangxingwei(xwdz989 @ gmail.com)
  * @since 1.0.0
  */
 public interface QuickExecutor {
@@ -62,15 +62,35 @@ public interface QuickExecutor {
 
     void awaitTermination(long timeout, TimeUnit timeUnit) throws InterruptedException;
 
+    /**
+     * 同步执行一个task
+     * @param task 支持callable接口
+     * @param <T>
+     * @return
+     */
+    <T> Future<T> sync(Callable<T> task);
+
+    /**
+     * 同步执行一个task
+     * @param task 支持runnable接口
+     * @return
+     */
+    Future<?> sync(Runnable task);
+
+    /**
+     * 异步执行一个任务
+     * @param task command
+     * @param responseListener 回调
+     */
     <T> Future<T> async(Callable<T> task, Response<T> responseListener);
 
+    /**
+     * 线程池停止
+     */
     void shutdown();
 
     List<Runnable> shutdownNow();
 
-    <T> Future<T> submit(Callable<T> task);
-
-    Future<?> submit(Runnable task);
 
     /**
      * 支持Callable接口

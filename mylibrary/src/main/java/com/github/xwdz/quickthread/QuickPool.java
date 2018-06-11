@@ -2,6 +2,9 @@ package com.github.xwdz.quickthread;
 
 import android.support.annotation.NonNull;
 
+import com.github.xwdz.quickthread.callback.GlobalCallback;
+import com.github.xwdz.quickthread.callback.Response;
+
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -12,13 +15,14 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author huangxingwei(xwdz9989@gmail.com)
+ * @author huangxingwei(xwdz9989 @ gmail.com)
  * @since 1.0.0
  */
 public final class QuickPool implements QuickExecutor {
 
     private ExecutorService mThreadPool;
     private TaskUtils mTaskUtils;
+    private GlobalCallback mGlobalCallback;
 
     private QuickPool(Builder builder) {
         mThreadPool = builder.mThreadPool;
@@ -51,13 +55,30 @@ public final class QuickPool implements QuickExecutor {
     }
 
     @Override
+    public void setGlobalCallback(GlobalCallback callback) {
+        mGlobalCallback = callback;
+    }
+
+    @Override
+    public <T> Future<T> sync(QuickCallable<T> task) {
+        final CallableWrapper<T> callableWrapper = new CallableWrapper<>(task.mName, task, mGlobalCallback);
+        return mThreadPool.submit(callableWrapper);
+    }
+
+    @Override
+    public Future<?> sync(Runnable task) {
+        return mThreadPool.submit(task);
+    }
+
+    @Override
     public void awaitTermination(long timeout, TimeUnit timeUnit) throws InterruptedException {
         mTaskUtils.awaitTermination(timeout, timeUnit);
     }
 
     @Override
-    public <T> Future<T> async(Callable<T> task, Response<T> responseListener) {
-        return mTaskUtils.async(task, responseListener);
+    public <T> Future<T> async(QuickCallable<T> task, Response<T> responseListener) {
+        final CallableWrapper<T> callableWrapper = new CallableWrapper<>(task.mName, task, mGlobalCallback);
+        return mTaskUtils.async(callableWrapper, responseListener);
     }
 
     @Override
@@ -68,16 +89,6 @@ public final class QuickPool implements QuickExecutor {
     @Override
     public List<Runnable> shutdownNow() {
         return mTaskUtils.shutdownNow();
-    }
-
-    @Override
-    public <T> Future<T> sync(Callable<T> task) {
-        return mThreadPool.submit(task);
-    }
-
-    @Override
-    public Future<?> sync(Runnable task) {
-        return mThreadPool.submit(task);
     }
 
     @Override

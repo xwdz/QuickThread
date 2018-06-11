@@ -2,6 +2,9 @@ package com.github.xwdz.quickthread;
 
 import android.support.annotation.NonNull;
 
+import com.github.xwdz.quickthread.callback.GlobalCallback;
+import com.github.xwdz.quickthread.callback.Response;
+
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
@@ -60,18 +63,24 @@ public interface QuickExecutor {
      */
     void scheduled(@NonNull Runnable command, long initialDelay, long delay, TimeUnit unit);
 
+
+    void setGlobalCallback(GlobalCallback callback);
+
+
     void awaitTermination(long timeout, TimeUnit timeUnit) throws InterruptedException;
 
     /**
      * 同步执行一个task
+     *
      * @param task 支持callable接口
      * @param <T>
      * @return
      */
-    <T> Future<T> sync(Callable<T> task);
+    <T> Future<T> sync(QuickCallable<T> task);
 
     /**
      * 同步执行一个task
+     *
      * @param task 支持runnable接口
      * @return
      */
@@ -79,10 +88,11 @@ public interface QuickExecutor {
 
     /**
      * 异步执行一个任务
-     * @param task command
+     *
+     * @param task             command
      * @param responseListener 回调
      */
-    <T> Future<T> async(Callable<T> task, Response<T> responseListener);
+    <T> Future<T> async(QuickCallable<T> task, Response<T> responseListener);
 
     /**
      * 线程池停止

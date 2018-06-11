@@ -1,4 +1,4 @@
-package com.github.xwdz.quickthread;
+package com.github.xwdz.quickthread.callback;
 
 /**
  * @author 黄兴伟 (xwd9989@gamil.com)

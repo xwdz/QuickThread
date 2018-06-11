@@ -1,5 +1,7 @@
 package com.github.xwdz.quickthread;
 
+import com.github.xwdz.quickthread.callback.Response;
+
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -9,7 +11,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author 黄兴伟 (xwd9989@gamil.com)
+ * @author huangxingwei (xwd9989@gamil.com)
  * @since 2018/6/9
  */
 public class TaskUtils {

@@ -1,5 +1,6 @@
 ### QuickThread
 
+
 ### 特性
 
 - 任务扩展:支持延迟任务以及异步回调任务;
@@ -7,6 +8,8 @@
 - 线程切换:可制定是否回调主线程;
 - 使用安全:当线程出现异常。能自动将catch异常信息传递给用户，避免出现crash;
 
+
+[![](https://jitpack.io/v/xwdz/QuickThread.svg)](https://jitpack.io/#xwdz/QuickThread)
 
 ### 依赖
 > compile 'com.xwdz:QuickThread:0.0.3'

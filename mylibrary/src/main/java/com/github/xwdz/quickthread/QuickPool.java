@@ -78,7 +78,13 @@ public final class QuickPool implements QuickExecutor {
     @Override
     public <T> Future<T> async(QuickCallable<T> task, Response<T> responseListener) {
         final CallableWrapper<T> callableWrapper = new CallableWrapper<>(task.mName, task, mGlobalCallback);
-        return mTaskUtils.async(callableWrapper, responseListener);
+        return mTaskUtils.async(callableWrapper, responseListener, false);
+    }
+
+    @Override
+    public <T> Future<T> async(QuickCallable<T> task, Response<T> responseListener, boolean isMainUICallback) {
+        final CallableWrapper<T> callableWrapper = new CallableWrapper<>(task.mName, task, mGlobalCallback);
+        return mTaskUtils.async(callableWrapper, responseListener, isMainUICallback);
     }
 
     @Override

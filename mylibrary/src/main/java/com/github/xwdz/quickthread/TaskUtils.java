@@ -1,5 +1,7 @@
 package com.github.xwdz.quickthread;
 
+import android.os.Handler;
+
 import com.github.xwdz.quickthread.callback.Response;
 
 import java.util.List;
@@ -26,9 +28,11 @@ public class TaskUtils {
     }
 
     private ScheduledExecutorService mScheduledExecutorService;
+    private Handler mHandler;
 
     private TaskUtils() {
         mScheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+        mHandler = new Handler();
     }
 
     public void schedule(Runnable command, long delay, TimeUnit unit) {
@@ -47,25 +51,43 @@ public class TaskUtils {
         mScheduledExecutorService.shutdown();
     }
 
-    public <T> Future<T> async(Callable<T> task, final Response<T> responseListener) {
+    public <T> Future<T> async(Callable<T> task, final Response<T> responseListener, final boolean isMainUiCallback) {
         final Future<T> future = mScheduledExecutorService.submit(task);
         mScheduledExecutorService.execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    T t = future.get();
+                    final T t = future.get();
                     if (responseListener != null) {
-                        responseListener.onSuccess(t);
+                        if (isMainUiCallback) {
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    responseListener.onSuccess(t);
+                                }
+                            });
+                        } else {
+                            responseListener.onSuccess(t);
+                        }
+
                     }
-                } catch (Throwable e) {
+                } catch (final Throwable e) {
                     if (responseListener != null) {
-                        responseListener.onError(e);
+                        if (isMainUiCallback) {
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    responseListener.onError(e);
+                                }
+                            });
+                        } else {
+                            responseListener.onError(e);
+                        }
                     }
                 }
             }
         });
         return future;
-
     }
 
     public List<Runnable> shutdownNow() {

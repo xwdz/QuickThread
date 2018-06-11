@@ -94,6 +94,16 @@ public interface QuickExecutor {
      */
     <T> Future<T> async(QuickCallable<T> task, Response<T> responseListener);
 
+
+    /**
+     * 异步执行一个任务
+     * @param task command
+     * @param responseListener 回调
+     * @param isMainUICallback 是否回调在主线程
+     * @return
+     */
+    <T> Future<T> async(QuickCallable<T> task, Response<T> responseListener,boolean isMainUICallback);
+
     /**
      * 线程池停止
      */

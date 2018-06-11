@@ -95,11 +95,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
         //异步执行一个call
-        QuickManager.getCache().async(new Callable<String>() {
+        QuickManager.getCache().async(new QuickCallable<String>("name") {
             @Override
-            public String call() throws Exception {
+            public String qCall() throws Exception {
                 if (Looper.getMainLooper() == Looper.myLooper()) {
                     Log.e("TAG", "main Thread");
                 } else {

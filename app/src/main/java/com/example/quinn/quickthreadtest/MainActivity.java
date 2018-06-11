@@ -5,8 +5,8 @@ import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.example.mylibrary.QuickManager;
-import com.example.mylibrary.listener.Response;
+import com.github.xwdz.quickthread.QuickManager;
+import com.github.xwdz.quickthread.Response;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;

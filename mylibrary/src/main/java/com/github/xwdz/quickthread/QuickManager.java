@@ -1,4 +1,4 @@
-package com.example.mylibrary;
+package com.github.xwdz.quickthread;
 
 /**
  * @author huangxingwei(xwdz9989@gmail.com)

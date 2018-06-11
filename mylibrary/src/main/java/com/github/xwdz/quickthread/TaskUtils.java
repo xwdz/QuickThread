@@ -1,6 +1,4 @@
-package com.example.mylibrary;
-
-import com.example.mylibrary.listener.Response;
+package com.github.xwdz.quickthread;
 
 import java.util.List;
 import java.util.concurrent.Callable;

@@ -1,8 +1,6 @@
-package com.example.mylibrary;
+package com.github.xwdz.quickthread;
 
 import android.support.annotation.NonNull;
-
-import com.example.mylibrary.listener.Response;
 
 import java.util.List;
 import java.util.concurrent.Callable;

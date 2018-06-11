@@ -1,4 +1,4 @@
-package com.example.mylibrary.listener;
+package com.github.xwdz.quickthread;
 
 /**
  * @author 黄兴伟 (xwd9989@gamil.com)

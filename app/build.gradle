@@ -30,4 +30,5 @@ dependencies {
     implementation project(':mylibrary')
     implementation 'io.reactivex:rxjava:1.0.14'
     implementation 'io.reactivex:rxandroid:1.0.1'
+    implementation "com.github.yjfnypeu:EasyThread:0.6.0"
 }

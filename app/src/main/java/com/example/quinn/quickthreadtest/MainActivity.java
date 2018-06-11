@@ -9,10 +9,7 @@ import com.github.xwdz.quickthread.QuickCallable;
 import com.github.xwdz.quickthread.QuickManager;
 import com.github.xwdz.quickthread.QuickPool;
 import com.github.xwdz.quickthread.callback.Response;
-import com.lzh.easythread.Callback;
-import com.lzh.easythread.EasyThread;
 
-import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
@@ -54,43 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }, 1000, 3000,TimeUnit.SECONDS);
-
-
-
-
-        EasyThread easyThread = EasyThread.Builder.createCacheable()
-                .setName("123")
-                .build();
-
-        easyThread.submit(new Callable<String>() {
-            @Override
-            public String call() throws Exception {
-                return null;
-            }
-        });
-        easyThread.execute(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });
-
-        easyThread.setCallback(new Callback() {
-            @Override
-            public void onError(String threadName, Throwable t) {
-
-            }
-
-            @Override
-            public void onCompleted(String threadName) {
-
-            }
-
-            @Override
-            public void onStart(String threadName) {
-
-            }
-        });
 
 
         Log.e("TAG", "---feature init ");

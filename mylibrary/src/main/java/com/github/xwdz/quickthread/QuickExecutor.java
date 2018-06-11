@@ -76,7 +76,7 @@ public interface QuickExecutor {
      * @param <T>
      * @return
      */
-    <T> Future<T> sync(QuickCallable<T> task);
+    <T> Future<T> submit(QuickCallable<T> task);
 
     /**
      * 同步执行一个task
@@ -84,7 +84,7 @@ public interface QuickExecutor {
      * @param task 支持runnable接口
      * @return
      */
-    Future<?> sync(Runnable task);
+    Future<?> submit(Runnable task);
 
     /**
      * 异步执行一个任务

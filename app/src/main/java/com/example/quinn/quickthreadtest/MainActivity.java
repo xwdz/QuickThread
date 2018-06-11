@@ -7,12 +7,12 @@ import android.util.Log;
 
 import com.github.xwdz.quickthread.QuickCallable;
 import com.github.xwdz.quickthread.QuickManager;
+import com.github.xwdz.quickthread.QuickPool;
 import com.github.xwdz.quickthread.callback.Response;
 import com.lzh.easythread.Callback;
 import com.lzh.easythread.EasyThread;
 
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import static java.lang.Thread.sleep;
@@ -24,7 +24,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        QuickPool quickPool  = QuickManager.getNetwork();
+        quickPool.execute(new Runnable() {
+            @Override
+            public void run() {
 
+            }
+        });
         QuickManager.getNetwork().execute(new Runnable() {
             @Override
             public void run() {
@@ -80,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //同步执行一个call
-        Future syncFuture = QuickManager.getCache().sync(new QuickCallable<String>("test") {
+        Future syncFuture = QuickManager.getCache().submit(new QuickCallable<String>("test") {
             @Override
             public String qCall() throws Exception {
                 Thread.sleep(10000);

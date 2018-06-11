@@ -60,13 +60,13 @@ public final class QuickPool implements QuickExecutor {
     }
 
     @Override
-    public <T> Future<T> sync(QuickCallable<T> task) {
+    public <T> Future<T> submit(QuickCallable<T> task) {
         final CallableWrapper<T> callableWrapper = new CallableWrapper<>(task.mName, task, mGlobalCallback);
         return mThreadPool.submit(callableWrapper);
     }
 
     @Override
-    public Future<?> sync(Runnable task) {
+    public Future<?> submit(Runnable task) {
         return mThreadPool.submit(task);
     }
 

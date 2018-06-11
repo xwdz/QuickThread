@@ -8,11 +8,28 @@
 - 使用安全:当线程出现异常。能自动将catch异常信息传递给用户，避免出现crash;
 
 
+### 依赖
+> compile 'com.xwdz:QuickThread:0.0.2'
 
-//同步执行一个call
+
+### 用法与原生线程池并无区别
+
+####  Runnable任务
 
 ```
-   Future syncFuture = QuickManager.getCache().sync(new QuickCallable<String>("test") {
+QuickPool quickPool  = QuickManager.getNetwork();
+        quickPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                
+            }
+        });
+```
+
+#### 同步Callable任务
+
+```
+Future syncFuture = QuickManager.getCache().submit(new QuickCallable<String>("test") {
        @Override
        public String qCall() throws Exception {
            Thread.sleep(10000);
@@ -25,35 +42,36 @@
    } catch (Exception e) {
        e.printStackTrace();
    }
-
 ```
 
+#### 异步Callable任务
 
+**重点说一下第三个参数**
 
-//异步执行一个call
+- isMainUICallback ： `是否回调在主线程`
 
 ```
-QuickManager.getCache().async(new Callable<String>() {
-        @Override
-        public String call() throws Exception {
-            if (Looper.getMainLooper() == Looper.myLooper()) {
-                Log.e("TAG", "main Thread");
-            } else {
-                Log.e("TAG", "child Thread");
+QuickManager.getCache().async(new QuickCallable<String>("name") {
+            @Override
+            public String qCall() throws Exception {
+                if (Looper.getMainLooper() == Looper.myLooper()) {
+                    Log.e("TAG", "main Thread");
+                } else {
+                    Log.e("TAG", "child Thread");
+                }
+                Thread.sleep(10000);
+                return "123123";
             }
-            Thread.sleep(10000);
-            return "123123";
-        }
-    }, new Response<String>() {
-        @Override
-        public void onSuccess(String s) {
-            Log.e("TAG", "s = " + s);
-        }
+        }, new Response<String>() {
+            @Override
+            public void onSuccess(String s) {
+                Log.e("TAG", "s = " + s);
+            }
 
-        @Override
-        public void onError(Throwable e) {
-        }
-    },true);
+            @Override
+            public void onError(Throwable e) {
+            }
+        }, true);
 ```
 
 

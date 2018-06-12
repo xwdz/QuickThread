@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
 
             }
-        }, 1000, 3000,TimeUnit.SECONDS);
+        }, 1000, 3000,TimeUnit.MILLISECONDS);
 
 
         Log.e("TAG", "---feature init ");

@@ -106,7 +106,7 @@ QuickManager.getIO().delay(new Runnable() {
             public void run() {
 
             }
-        }, 1000,TimeUnit.SECONDS);
+        }, 1000,TimeUnit.MILLISECONDS);
 
 ```
 
@@ -134,7 +134,7 @@ QuickManager.getIO().scheduled(new Runnable() {
             public void run() {
 
             }
-        }, 1000, 3000,TimeUnit.SECONDS);
+        }, 1000, 3000,TimeUnit.MILLISECONDS);
 ```
 
 

@@ -26,7 +26,29 @@ QuickPool sCache = new QuickPool.Builder()
 
 ----
 
+
 ### 使用QuickPool执行任务;
+
+#### 设置Callback
+```
+QuickPool quickPool = QuickManager.getNetwork();
+        quickPool.setGlobalCallback(new GlobalCallback() {
+            @Override
+            public void onStart(String threadName) {
+                
+            }
+
+            @Override
+            public void onCompleted(String threadName) {
+
+            }
+
+            @Override
+            public void onError(String threadName, Throwable t) {
+
+            }
+        });
+```
 
 ####  Runnable任务
 

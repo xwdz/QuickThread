@@ -8,6 +8,7 @@ import android.util.Log;
 import com.github.xwdz.quickthread.QuickCallable;
 import com.github.xwdz.quickthread.QuickManager;
 import com.github.xwdz.quickthread.QuickPool;
+import com.github.xwdz.quickthread.callback.GlobalCallback;
 import com.github.xwdz.quickthread.callback.Response;
 
 import java.util.concurrent.Future;
@@ -23,6 +24,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         QuickPool quickPool = QuickManager.getNetwork();
+        quickPool.setGlobalCallback(new GlobalCallback() {
+            @Override
+            public void onStart(String threadName) {
+
+            }
+
+            @Override
+            public void onCompleted(String threadName) {
+
+            }
+
+            @Override
+            public void onError(String threadName, Throwable t) {
+
+            }
+        });
         quickPool.execute(new Runnable() {
             @Override
             public void run() {

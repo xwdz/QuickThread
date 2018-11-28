@@ -16,7 +16,7 @@ lastVersion = [![](https://jitpack.io/v/xwdz/QuickThread.svg)](https://jitpack.i
 
 ### 创建QuickPool实例
 ```
-QuickPool sCache = new QuickPool.Builder()
+QuietPool sCache = new QuietPool.Builder()
                 //createXXX
                 .createCached()
                 .build();
@@ -31,7 +31,7 @@ QuickPool sCache = new QuickPool.Builder()
 
 #### 设置Callback
 ```
-QuickPool quickPool = QuickManager.getNetwork();
+QuietPool quickPool = QuietManager.getNetwork();
         quickPool.setGlobalCallback(new GlobalCallback() {
             @Override
             public void onStart(String threadName) {
@@ -53,7 +53,7 @@ QuickPool quickPool = QuickManager.getNetwork();
 ####  Runnable任务
 
 ```
-QuickPool quickPool  = QuickManager.getNetwork();
+QuietPool quickPool  = QuietManager.getNetwork();
         quickPool.execute(new Runnable() {
             @Override
             public void run() {
@@ -65,7 +65,7 @@ QuickPool quickPool  = QuickManager.getNetwork();
 #### 同步Callable任务
 
 ```
-Future syncFuture = QuickManager.getCache().submit(new QuickCallable<String>("test") {
+Future syncFuture = QuietManager.getCache().submit(new QuickCallable<String>("test") {
        @Override
        public String qCall() throws Exception {
            Thread.sleep(10000);

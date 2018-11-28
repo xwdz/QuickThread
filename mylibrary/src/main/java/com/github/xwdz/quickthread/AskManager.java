@@ -1,10 +1,12 @@
 package com.github.xwdz.quickthread;
 
 /**
+ * 全局线程池管理
+ *
  * @author huangxingwei(xwdz9989@gmail.com)
  * @since 1.0.0
  */
-public class QuietManager {
+public class AskManager {
 
     private static QuietPool sNetwork;
 

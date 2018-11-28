@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  * @author huangxingwei(xwdz989@gmail.com)
  * @since 1.0.0
  */
-public interface QuickExecutor {
+public interface QuietThreadExecutor {
 
     /**
      * 立即执行一个任务
@@ -97,7 +97,8 @@ public interface QuickExecutor {
 
     /**
      * 异步执行一个任务
-     * @param task command
+     *
+     * @param task             command
      * @param responseListener 回调
      * @param isMainUICallback 是否回调在主线程
      * @return

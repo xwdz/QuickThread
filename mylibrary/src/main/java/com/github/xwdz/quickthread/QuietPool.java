@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  * @author huangxingwei(xwdz9989 @ gmail.com)
  * @since 1.0.0
  */
-public final class QuietPool implements QuickExecutor {
+public final class QuietPool implements QuietThreadExecutor {
 
     private ExecutorService mThreadPool;
     private TaskUtils mTaskUtils;

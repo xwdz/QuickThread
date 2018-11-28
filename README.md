@@ -22,10 +22,9 @@ QuietPool sCache = new QuietPool.Builder()
                 .build();
 ```
 
-#### QuickThread默认提供了了一个统一的管理器维护所有的线程池[QuickManager](https://github.com/xwdz/QuickThread/blob/master/mylibrary/src/main/java/com/github/xwdz/quickthread/QuickManager.java)
+#### QuickThread默认提供了了一个统一的管理器维护所有的线程池[AskManager](https://github.com/xwdz/QuickThread/blob/master/mylibrary/src/main/java/com/github/xwdz/quickthread/AskManager.java)
 
 ----
-
 
 ### 使用QuickPool执行任务;
 

@@ -52,7 +52,7 @@ QuietPool quickPool = QuietManager.getNetwork();
 ####  Runnable任务
 
 ```
-QuietPool quickPool  = QuietManager.getNetwork();
+QuietPool quickPool  = AskManager.getNetwork();
         quickPool.execute(new Runnable() {
             @Override
             public void run() {
@@ -64,7 +64,7 @@ QuietPool quickPool  = QuietManager.getNetwork();
 #### 同步Callable任务
 
 ```
-Future syncFuture = QuietManager.getCache().submit(new QuickCallable<String>("test") {
+Future syncFuture = AskManager.getCache().submit(new QuickCallable<String>("test") {
        @Override
        public String qCall() throws Exception {
            Thread.sleep(10000);
@@ -86,7 +86,7 @@ Future syncFuture = QuietManager.getCache().submit(new QuickCallable<String>("te
 - isMainUICallback ： `是否回调在主线程`
 
 ```
-QuickManager.getCache().async(new QuickCallable<String>("name") {
+AskManager.getCache().async(new QuickCallable<String>("name") {
             @Override
             public String qCall() throws Exception {
                 if (Looper.getMainLooper() == Looper.myLooper()) {
@@ -113,7 +113,7 @@ QuickManager.getCache().async(new QuickCallable<String>("name") {
 
 ```
 //单位默认毫秒
-QuickManager.getIO().delay(new Runnable() {
+AskManager.getIO().delay(new Runnable() {
             @Override
             public void run() {
 
@@ -122,7 +122,7 @@ QuickManager.getIO().delay(new Runnable() {
 
 //or
 
-QuickManager.getIO().delay(new Runnable() {
+AskManager.getIO().delay(new Runnable() {
             @Override
             public void run() {
 
@@ -141,7 +141,7 @@ QuickManager.getIO().delay(new Runnable() {
 
 ```
 //单位默认毫秒
-QuickManager.getIO().scheduled(new Runnable() {
+AskManager.getIO().scheduled(new Runnable() {
             @Override
             public void run() {
 
@@ -150,7 +150,7 @@ QuickManager.getIO().scheduled(new Runnable() {
         
 // or
 
-QuickManager.getIO().scheduled(new Runnable() {
+AskManager.getIO().scheduled(new Runnable() {
             @Override
             public void run() {
 

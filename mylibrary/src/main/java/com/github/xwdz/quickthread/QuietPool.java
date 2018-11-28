@@ -18,13 +18,13 @@ import java.util.concurrent.TimeUnit;
  * @author huangxingwei(xwdz9989 @ gmail.com)
  * @since 1.0.0
  */
-public final class QuickPool implements QuickExecutor {
+public final class QuietPool implements QuickExecutor {
 
     private ExecutorService mThreadPool;
     private TaskUtils mTaskUtils;
     private GlobalCallback mGlobalCallback;
 
-    private QuickPool(Builder builder) {
+    private QuietPool(Builder builder) {
         mThreadPool = builder.mThreadPool;
         mTaskUtils = TaskUtils.get();
     }
@@ -60,7 +60,7 @@ public final class QuickPool implements QuickExecutor {
     }
 
     @Override
-    public <T> Future<T> submit(QuickCallable<T> task) {
+    public <T> Future<T> submit(QuietCallable<T> task) {
         final CallableWrapper<T> callableWrapper = new CallableWrapper<>(task.mName, task, mGlobalCallback);
         return mThreadPool.submit(callableWrapper);
     }
@@ -76,13 +76,13 @@ public final class QuickPool implements QuickExecutor {
     }
 
     @Override
-    public <T> Future<T> async(QuickCallable<T> task, Response<T> responseListener) {
+    public <T> Future<T> async(QuietCallable<T> task, Response<T> responseListener) {
         final CallableWrapper<T> callableWrapper = new CallableWrapper<>(task.mName, task, mGlobalCallback);
         return mTaskUtils.async(callableWrapper, responseListener, false);
     }
 
     @Override
-    public <T> Future<T> async(QuickCallable<T> task, Response<T> responseListener, boolean isMainUICallback) {
+    public <T> Future<T> async(QuietCallable<T> task, Response<T> responseListener, boolean isMainUICallback) {
         final CallableWrapper<T> callableWrapper = new CallableWrapper<>(task.mName, task, mGlobalCallback);
         return mTaskUtils.async(callableWrapper, responseListener, isMainUICallback);
     }
@@ -145,8 +145,8 @@ public final class QuickPool implements QuickExecutor {
             return this;
         }
 
-        public QuickPool build() {
-            return new QuickPool(this);
+        public QuietPool build() {
+            return new QuietPool(this);
         }
 
     }

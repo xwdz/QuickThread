@@ -1,6 +1,7 @@
 package com.github.xwdz.quickthread;
 
 import android.os.Handler;
+import android.os.Looper;
 
 import com.github.xwdz.quickthread.callback.Response;
 
@@ -32,7 +33,7 @@ public class TaskUtils {
 
     private TaskUtils() {
         mScheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-        mHandler = new Handler();
+        mHandler = new Handler(Looper.getMainLooper());
     }
 
     public void schedule(Runnable command, long delay, TimeUnit unit) {

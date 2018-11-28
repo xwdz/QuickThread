@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 执行任务接口
  *
- * @author huangxingwei(xwdz989 @ gmail.com)
+ * @author huangxingwei(xwdz989@gmail.com)
  * @since 1.0.0
  */
 public interface QuickExecutor {
@@ -76,7 +76,7 @@ public interface QuickExecutor {
      * @param <T>
      * @return
      */
-    <T> Future<T> submit(QuickCallable<T> task);
+    <T> Future<T> submit(QuietCallable<T> task);
 
     /**
      * 同步执行一个task
@@ -92,7 +92,7 @@ public interface QuickExecutor {
      * @param task             command
      * @param responseListener 回调
      */
-    <T> Future<T> async(QuickCallable<T> task, Response<T> responseListener);
+    <T> Future<T> async(QuietCallable<T> task, Response<T> responseListener);
 
 
     /**
@@ -102,7 +102,7 @@ public interface QuickExecutor {
      * @param isMainUICallback 是否回调在主线程
      * @return
      */
-    <T> Future<T> async(QuickCallable<T> task, Response<T> responseListener,boolean isMainUICallback);
+    <T> Future<T> async(QuietCallable<T> task, Response<T> responseListener, boolean isMainUICallback);
 
     /**
      * 线程池停止

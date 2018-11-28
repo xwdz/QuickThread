@@ -30,7 +30,7 @@ QuietPool sCache = new QuietPool.Builder()
 
 #### 设置Callback
 ```
-QuietPool quickPool = QuietManager.getNetwork();
+QuietPool quickPool = AskManager.getNetwork();
         quickPool.setGlobalCallback(new GlobalCallback() {
             @Override
             public void onStart(String threadName) {

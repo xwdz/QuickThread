@@ -22,7 +22,7 @@ QuietPool sCache = new QuietPool.Builder()
                 .build();
 ```
 
-#### QuickThread默认提供了了一个统一的管理器维护所有的线程池[AskManager](https://github.com/xwdz/QuickThread/blob/master/mylibrary/src/main/java/com/github/xwdz/quickthread/AskManager.java)
+#### QuickThread默认提供了了一个统一的管理器维护所有的线程池[AskQuietManager](https://github.com/xwdz/QuickThread/blob/master/mylibrary/src/main/java/com/github/xwdz/quickthread/AskQuietManager.java)
 
 ----
 
@@ -30,7 +30,7 @@ QuietPool sCache = new QuietPool.Builder()
 
 #### 设置Callback
 ```
-QuietPool quickPool = AskManager.getNetwork();
+QuietPool quickPool = AskQuietManager.getNetwork();
         quickPool.setGlobalCallback(new GlobalCallback() {
             @Override
             public void onStart(String threadName) {
@@ -52,7 +52,7 @@ QuietPool quickPool = AskManager.getNetwork();
 ####  Runnable任务
 
 ```
-QuietPool quickPool  = AskManager.getNetwork();
+QuietPool quickPool  = AskQuietManager.getNetwork();
         quickPool.execute(new Runnable() {
             @Override
             public void run() {
@@ -64,7 +64,7 @@ QuietPool quickPool  = AskManager.getNetwork();
 #### 同步Callable任务
 
 ```
-Future syncFuture = AskManager.getCache().submit(new QuickCallable<String>("test") {
+Future syncFuture = AskQuietManager.getCache().submit(new QuickCallable<String>("test") {
        @Override
        public String qCall() throws Exception {
            Thread.sleep(10000);
@@ -86,7 +86,7 @@ Future syncFuture = AskManager.getCache().submit(new QuickCallable<String>("test
 - isMainUICallback ： `是否回调在主线程`
 
 ```
-AskManager.getCache().async(new QuickCallable<String>("name") {
+AskQuietManager.getCache().async(new QuickCallable<String>("name") {
             @Override
             public String qCall() throws Exception {
                 if (Looper.getMainLooper() == Looper.myLooper()) {
@@ -113,7 +113,7 @@ AskManager.getCache().async(new QuickCallable<String>("name") {
 
 ```
 //单位默认毫秒
-AskManager.getIO().delay(new Runnable() {
+AskQuietManager.getIO().delay(new Runnable() {
             @Override
             public void run() {
 
@@ -122,7 +122,7 @@ AskManager.getIO().delay(new Runnable() {
 
 //or
 
-AskManager.getIO().delay(new Runnable() {
+AskQuietManager.getIO().delay(new Runnable() {
             @Override
             public void run() {
 
@@ -141,7 +141,7 @@ AskManager.getIO().delay(new Runnable() {
 
 ```
 //单位默认毫秒
-AskManager.getIO().scheduled(new Runnable() {
+AskQuietManager.getIO().scheduled(new Runnable() {
             @Override
             public void run() {
 
@@ -150,7 +150,7 @@ AskManager.getIO().scheduled(new Runnable() {
         
 // or
 
-AskManager.getIO().scheduled(new Runnable() {
+AskQuietManager.getIO().scheduled(new Runnable() {
             @Override
             public void run() {
 

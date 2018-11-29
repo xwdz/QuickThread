@@ -6,7 +6,7 @@ package com.github.xwdz.quickthread;
  * @author huangxingwei(xwdz9989@gmail.com)
  * @since 1.0.0
  */
-public class AskManager {
+public class AskQuietManager {
 
     private static QuietPool sNetwork;
 
